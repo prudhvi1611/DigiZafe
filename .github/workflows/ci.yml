@@ -34,18 +34,18 @@ jobs:
         cache-dependency-path: frontend/package-lock.json
 
     - name: Start Infrastructure (PostgreSQL & Redis)
-      run: docker compose -f docker-compose.yml up -d db redis broker
+      run: docker compose -f docker-compose.yml up -d postgres redis-broker redis-cache
 
     - name: Wait for Infrastructure Readiness
       run: |
         # Wait for PostgreSQL
-        until docker compose exec -T db pg_isready -U postgres; do
+        until docker compose exec -T postgres pg_isready -U digizafe; do
           echo "Waiting for postgres..."
           sleep 2
         done
         # Wait for Redis
-        until docker compose exec -T redis redis-cli ping; do
-          echo "Waiting for redis..."
+        until docker compose exec -T redis-cache redis-cli ping; do
+          echo "Waiting for redis-cache..."
           sleep 2
         done
 
@@ -57,7 +57,7 @@ jobs:
       working-directory: ./backend
       env:
         SECRET_KEY: "testsecret1234567890123456789012345"
-        DATABASE_URL: "postgresql+asyncpg://postgres:postgres@localhost:5433/digizafe_test"
+        DATABASE_URL: "postgresql+asyncpg://digizafe:digizafe_dev_password@localhost:5433/digizafe"
       run: python -m pytest tests/ -ra
 
     - name: Build Frontend
