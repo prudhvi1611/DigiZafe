@@ -66,3 +66,7 @@ Thumbs.db
 *.dump
 digizafe-data-export.json
 tree_output.txt
+
+# Local context files
+MASTER_ENGINEERING_CONTEXT.md
+MASTER_ENGINEERING_CONTEXT_2.md
