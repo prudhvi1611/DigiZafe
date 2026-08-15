@@ -1,0 +1,65 @@
+"""Build all DigiZafe connectors."""
+
+from __future__ import annotations
+
+from typing import Dict, List
+
+from app.connectors.impl.deep.common_crawl import CommonCrawlConnector
+from app.connectors.impl.deep.wayback import WaybackConnector
+from app.connectors.impl.dark_constrained.public_index import (
+    PublicIndexConnector,
+)
+from app.connectors.impl.surface.crtsh import CrtShConnector
+from app.connectors.impl.surface.github_connector import GitHubConnector
+from app.connectors.impl.surface.gravatar import GravatarConnector
+from app.connectors.impl.surface.pwned_passwords import (
+    PwnedPasswordsConnector,
+)
+from app.connectors.impl.surface.rdap import RdapConnector
+from app.connectors.impl.surface.serp_ddg import SerpDdgConnector
+from app.connectors.impl.surface.username_presence import (
+    UsernamePresenceConnector,
+)
+from app.connectors.impl.surface.xposedornot import XposedOrNotConnector
+from app.connectors.sdk.base import Connector
+from app.connectors.sdk.cache import ConnectorCache
+from app.connectors.sdk.rate_limiter import RateLimiter
+from app.connectors.sdk.redis_clients import get_cache_redis
+from app.security.egress import get_egress_fetcher
+
+
+async def build_connectors() -> Dict[str, Connector]:
+    redis = await get_cache_redis()
+    egress = get_egress_fetcher()
+    rate_limiter = RateLimiter(redis)
+    cache = ConnectorCache(redis)
+
+    common = {
+        "egress": egress,
+        "rate_limiter": rate_limiter,
+        "cache": cache,
+    }
+
+    instances: List[Connector] = [
+        # Surface
+        XposedOrNotConnector(**common),
+        PwnedPasswordsConnector(**common),
+        CrtShConnector(**common),
+        RdapConnector(**common),
+        GitHubConnector(**common),
+        GravatarConnector(**common),
+        UsernamePresenceConnector(**common),
+        SerpDdgConnector(**common),
+
+        # Deep Amber
+        CommonCrawlConnector(**common),
+        WaybackConnector(**common),
+
+        # Constrained-Dark Amber
+        PublicIndexConnector(**common),
+    ]
+
+    return {
+        connector.capability.id: connector
+        for connector in instances
+    }

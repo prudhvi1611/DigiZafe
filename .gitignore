@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.venv/
+venv/
+ENV/
+
+# Environment
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Docker
+*.log
+
+# Alembic
+# (keep versions)
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Local data
+data/
+*.sqlite3
+postgres_data/
+redis_data/
+
+# Frontend (later)
+node_modules/
+frontend/dist/
+frontend/.next/
+
+# Secrets / keys
+*.pem
+*.key
+master.key
+*.enc
+
+# OS
+Thumbs.db
+
+# Dumps
+*.dump
+*.json
+tree_output.txt

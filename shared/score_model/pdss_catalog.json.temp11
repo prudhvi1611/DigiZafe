@@ -1,0 +1,12 @@
+"archived_metadata": {
+  "sensitivity": 0.25,
+  "discoverability": 0.65,
+  "linkability": 0.45,
+  "impact": 0.20
+},
+"public_index_signal": {
+  "sensitivity": 0.55,
+  "discoverability": 0.70,
+  "linkability": 0.65,
+  "impact": 0.50
+}

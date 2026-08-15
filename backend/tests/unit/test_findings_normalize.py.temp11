@@ -1,0 +1,45 @@
+def test_archived_metadata_is_possible_and_deep():
+    from app.domain.findings_normalize import normalize_observation
+
+    finding = normalize_observation(
+        {
+            "kind": "archived_metadata",
+            "source": "common_crawl",
+            "title": "Archived URL metadata match",
+            "summary": "Historical URL index metadata",
+            "confidence": 0.45,
+            "layer": "deep",
+            "raw_ref": "https://example.com/archive",
+            "attributes": {
+                "metadata_only": True,
+                "current_exposure_unproven": True,
+            },
+        }
+    )
+
+    assert finding.layer == "deep"
+    assert finding.track == "possible"
+    assert finding.severity_hint == "info"
+
+
+def test_public_index_signal_is_metadata_only():
+    from app.domain.findings_normalize import normalize_observation
+
+    finding = normalize_observation(
+        {
+            "kind": "public_index_signal",
+            "source": "public_index",
+            "title": "Configured public-index metadata match",
+            "summary": "Metadata only",
+            "confidence": 0.35,
+            "layer": "constrained_dark",
+            "attributes": {
+                "metadata_only": True,
+                "raw_content_retrieved": False,
+            },
+        }
+    )
+
+    assert finding.layer == "constrained_dark"
+    assert finding.track == "possible"
+    assert finding.attributes["metadata_only"] is True

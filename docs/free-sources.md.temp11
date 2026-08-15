@@ -1,0 +1,28 @@
+## Sprint 11 Amber Sources
+
+### Common Crawl
+
+- Public URL-index metadata adapter.
+- Deep Amber only.
+- No archived page body retrieval.
+- Cache + Redis rate limiting required.
+- Results are historical/index metadata and do not prove current exposure.
+- Attribution: Common Crawl public index.
+
+### Internet Archive Wayback
+
+- Availability metadata adapter for verified domains.
+- Deep Amber only.
+- No archived page body retention.
+- Historical captures do not prove current exposure.
+- Attribution: Internet Archive Wayback Machine.
+
+### Configured Public Index
+
+- Constrained-Dark adapter is disabled by default.
+- Requires `FEATURE_CONSTRAINED_DARK=true`.
+- Requires `AMBER_PUBLIC_INDEX_URL`.
+- Requires `AMBER_PUBLIC_INDEX_HOST_ALLOWLIST`.
+- HTTPS only.
+- No `.onion`, Tor, marketplace, credentialed, or raw dump access.
+- Metadata-only JSON responses.

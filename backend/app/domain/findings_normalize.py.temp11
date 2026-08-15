@@ -1,0 +1,12 @@
+    elif kind == "archived_metadata":
+        severity = "info"
+        track = "possible"
+        attrs.setdefault("historical_or_indexed", True)
+        attrs.setdefault("current_exposure_unproven", True)
+
+    elif kind == "public_index_signal":
+        severity = "medium" if confidence >= 0.6 else "low"
+        track = "possible"
+        attrs.setdefault("metadata_only", True)
+        attrs.setdefault("raw_content_retrieved", False)
+        attrs.setdefault("current_exposure_unproven", True)

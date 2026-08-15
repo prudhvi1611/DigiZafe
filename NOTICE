@@ -1,0 +1,22 @@
+DigiZafe
+Copyright (c) 2025 DigiZafe Contributors
+
+This product includes software and design ideas derived from:
+
+1. auto-identity-remove (AIDR)
+   https://github.com/stephenlthorn/auto-identity-remove
+   Used as primary prior art for the remediation engine, broker runners,
+   verification loops, state management, and related concepts.
+   All code has been re-implemented under DigiZafe architecture.
+   Please respect the original project's license.
+
+2. XposedOrNot
+   https://xposedornot.com
+   https://github.com/XposedOrNot
+   Primary free breach data source. Free tier is for personal / low-volume use.
+   Attribution required when displaying their data. Respect their rate limits and ToS.
+
+3. Other free sources: Pwned Passwords (Have I Been Pwned), crt.sh, etc.
+   See docs/free-sources.md
+
+DigiZafe itself is released under the MIT License (see LICENSE).

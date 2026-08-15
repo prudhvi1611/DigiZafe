@@ -1,0 +1,11 @@
+class ObservationKind(str, Enum):
+    BREACH = "breach"
+    PASSWORD_EXPOSURE = "password_exposure"
+    CERTIFICATE = "certificate"
+    DNS_RDAP = "dns_rdap"
+    PROFILE = "profile"
+    USERNAME_PRESENCE = "username_presence"
+    SERP = "serp"
+    ARCHIVED_METADATA = "archived_metadata"
+    PUBLIC_INDEX_SIGNAL = "public_index_signal"
+    OTHER = "other"

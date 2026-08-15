@@ -1,0 +1,27 @@
+    def is_enabled_by_config(self) -> bool:
+        """Environment-level feature flag. DB toggle is applied by the registry service."""
+        cid = self.capability.id
+
+        mapping = {
+            "xposedornot": self.settings.feature_xposedornot,
+            "pwned_passwords": self.settings.feature_pwned_passwords,
+            "crtsh": self.settings.feature_crtsh,
+            "rdap": self.settings.feature_rdap,
+            "github": self.settings.feature_github_connector,
+            "gravatar": self.settings.feature_gravatar,
+            "username_presence": self.settings.feature_username_presence,
+            "serp_ddg": self.settings.feature_serp_ddg,
+
+            # Sprint 11 Amber
+            "common_crawl": (
+                self.settings.feature_deep_amber
+                and self.settings.common_crawl_enabled
+            ),
+            "wayback": (
+                self.settings.feature_deep_amber
+                and self.settings.wayback_enabled
+            ),
+            "public_index": self.settings.feature_constrained_dark,
+        }
+
+        return bool(mapping.get(cid, True))

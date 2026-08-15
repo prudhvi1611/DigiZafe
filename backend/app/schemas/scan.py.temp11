@@ -1,0 +1,8 @@
+class ScanCreate(BaseModel):
+    identifier_id: UUID
+    connector_ids: Optional[list[str]] = None
+
+    layer_scope: str = Field(
+        default="surface",
+        pattern="^(surface|deep|constrained_dark)$",
+    )

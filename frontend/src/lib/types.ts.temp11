@@ -1,0 +1,17 @@
+export type ExposureLayer = "surface" | "deep" | "constrained_dark";
+
+export interface LayerMetadata {
+  layer: ExposureLayer;
+  label: string;
+  description: string;
+  warning: string;
+  requires_explicit_consent: boolean;
+}
+
+export interface LayerCatalogResponse extends Array<LayerMetadata> {}
+
+export interface ScanCreateRequest {
+  identifier_id: string;
+  connector_ids?: string[];
+  layer_scope: ExposureLayer;
+}

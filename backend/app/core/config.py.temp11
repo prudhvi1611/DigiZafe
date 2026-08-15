@@ -1,0 +1,41 @@
+    # === Sprint 11: Deep + Constrained-Dark Amber ===
+    feature_deep_amber: bool = True
+    feature_constrained_dark: bool = False
+    amber_scan_requires_consent: bool = True
+
+    # Common Crawl
+    common_crawl_enabled: bool = True
+    common_crawl_collection: str = ""
+    common_crawl_index_base_url: str = "https://index.commoncrawl.org"
+    common_crawl_max_results: int = 50
+    common_crawl_cache_ttl_seconds: int = 21_600
+    common_crawl_rate_per_second: float = 0.2
+    common_crawl_rate_per_hour: int = 30
+    common_crawl_rate_per_day: int = 100
+
+    # Wayback
+    wayback_enabled: bool = True
+    wayback_availability_url: str = "https://archive.org/wayback/available"
+    wayback_max_results: int = 10
+    wayback_cache_ttl_seconds: int = 21_600
+    wayback_rate_per_second: float = 0.2
+    wayback_rate_per_hour: int = 30
+    wayback_rate_per_day: int = 100
+
+    # Configured public constrained-dark index
+    amber_public_index_url: str = ""
+    amber_public_index_host_allowlist: str = ""
+    amber_public_index_query_param: str = "q"
+    amber_public_index_max_results: int = 25
+    amber_public_index_cache_ttl_seconds: int = 21_600
+    amber_public_index_rate_per_second: float = 0.1
+    amber_public_index_rate_per_hour: int = 10
+    amber_public_index_rate_per_day: int = 30
+
+    @property
+    def amber_public_index_hosts(self) -> set[str]:
+        return {
+            host.strip().lower()
+            for host in self.amber_public_index_host_allowlist.split(",")
+            if host.strip()
+        }

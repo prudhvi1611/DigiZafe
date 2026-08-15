@@ -1,0 +1,31 @@
+## Sprint 11 Layer Handling
+
+PDSS preserves the finding layer:
+
+- `surface`
+- `deep`
+- `constrained_dark`
+
+The catalog applies layer multipliers:
+
+- Surface: `1.00`
+- Deep: `1.08`
+- Constrained-Dark: `1.15`
+
+Amber findings are normally placed on the Possible track because:
+
+- archived metadata may be stale;
+- URL-index presence does not prove page content;
+- a public-index result does not prove current exposure;
+- connector coverage is incomplete.
+
+Amber findings must preserve:
+
+- source;
+- layer;
+- attribution;
+- metadata-only status;
+- current-exposure uncertainty.
+
+The score must not describe historical or indexed metadata as a confirmed
+current breach without an independent confirmed finding.

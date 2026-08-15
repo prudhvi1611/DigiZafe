@@ -1,0 +1,7 @@
+<CardTitle className="flex flex-wrap gap-2">
+  <Badge>{scan.status}</Badge>
+  <Badge variant="secondary">{scan.layer_scope}</Badge>
+  <span className="text-base font-normal text-muted-foreground">
+    {scan.id}
+  </span>
+</CardTitle>
