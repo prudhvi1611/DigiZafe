@@ -1,0 +1,48 @@
+{
+  "model_version": "linkage-v1.0.0",
+  "description": "Fellegi–Sunter style partial match weights in log2 (deciban-like) units for identity graph edges among a user's own identifiers",
+  "prior_match_prob": 0.02,
+  "comparisons": {
+    "same_user_ownership": {
+      "agree_weight": 6.0,
+      "disagree_weight": -8.0,
+      "note": "All DigiZafe identifiers already share user_id; this is always agree for in-user graph"
+    },
+    "type_pair": {
+      "email_email": 1.2,
+      "email_username": 0.8,
+      "email_github_username": 1.0,
+      "email_domain": 0.6,
+      "email_phone": 0.5,
+      "username_github_username": 2.5,
+      "username_username": 1.0,
+      "domain_domain": 1.5,
+      "phone_phone": 2.0,
+      "default": 0.3
+    },
+    "canonical_similarity": {
+      "exact": 5.0,
+      "local_part_match": 2.5,
+      "domain_part_match": 1.5,
+      "substring": 1.0,
+      "none": -1.5
+    },
+    "shared_finding_sources": {
+      "per_shared_source": 0.6,
+      "cap": 3.0
+    },
+    "shared_breach_names": {
+      "per_shared_breach": 0.4,
+      "cap": 2.5
+    },
+    "profile_url_overlap": {
+      "agree": 2.0,
+      "disagree": 0.0
+    }
+  },
+  "thresholds": {
+    "auto_link_prob": 0.95,
+    "review_prob": 0.70,
+    "collision_flag_prob": 0.50
+  }
+}

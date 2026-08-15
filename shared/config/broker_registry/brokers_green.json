@@ -1,0 +1,146 @@
+{
+  "registry_version": "1.0.0",
+  "source": "DigiZafe curated Green subset + AIDR lineage attribution",
+  "attribution": "Broker strategies inspired by auto-identity-remove (AIDR). Re-implemented under DigiZafe rules.",
+  "legality_tier": "green",
+  "brokers": [
+    {
+      "id": "truepeoplesearch",
+      "name": "TruePeopleSearch",
+      "method": "direct_form",
+      "legality": "green",
+      "opt_out_url": "https://www.truepeoplesearch.com/removal",
+      "requires_captcha": false,
+      "requires_email_confirm": false,
+      "form_field_map": {
+        "email": "input[type='email'], input[name*='email' i]",
+        "first_name": "input[name*='first' i]",
+        "last_name": "input[name*='last' i]",
+        "state": "select[name*='state' i], input[name*='state' i]"
+      },
+      "submit_selector": "button[type='submit'], input[type='submit']",
+      "success_hints": ["removed", "opt-out", "request received", "thank you", "success"],
+      "search_url_template": null,
+      "enabled": true
+    },
+    {
+      "id": "fastpeoplesearch",
+      "name": "FastPeopleSearch",
+      "method": "direct_form",
+      "legality": "green",
+      "opt_out_url": "https://www.fastpeoplesearch.com/removal",
+      "requires_captcha": true,
+      "requires_email_confirm": false,
+      "form_field_map": {
+        "email": "input[type='email']",
+        "first_name": "input[name*='first' i]",
+        "last_name": "input[name*='last' i]"
+      },
+      "submit_selector": "button[type='submit']",
+      "success_hints": ["removed", "request", "thank"],
+      "enabled": true
+    },
+    {
+      "id": "familytreenow",
+      "name": "FamilyTreeNow",
+      "method": "direct_form",
+      "legality": "green",
+      "opt_out_url": "https://www.familytreenow.com/optout",
+      "requires_captcha": false,
+      "requires_email_confirm": false,
+      "form_field_map": {
+        "email": "input[type='email']",
+        "first_name": "input[name*='first' i]",
+        "last_name": "input[name*='last' i]"
+      },
+      "submit_selector": "button[type='submit'], input[type='submit']",
+      "success_hints": ["success", "removed", "opt out", "thank"],
+      "enabled": true
+    },
+    {
+      "id": "thatsthem",
+      "name": "ThatsThem",
+      "method": "direct_form",
+      "legality": "green",
+      "opt_out_url": "https://thatsthem.com/optout",
+      "requires_captcha": false,
+      "requires_email_confirm": false,
+      "form_field_map": {
+        "email": "input[type='email']",
+        "name": "input[name*='name' i]"
+      },
+      "submit_selector": "button[type='submit']",
+      "success_hints": ["success", "removed", "request"],
+      "enabled": true
+    },
+    {
+      "id": "spokeo",
+      "name": "Spokeo",
+      "method": "manual",
+      "legality": "green",
+      "opt_out_url": "https://www.spokeo.com/optout",
+      "requires_captcha": true,
+      "requires_email_confirm": true,
+      "form_field_map": {},
+      "submit_selector": null,
+      "success_hints": [],
+      "enabled": true,
+      "notes": "Often CAPTCHA + email confirm — free path = open_in_browser / manual queue"
+    },
+    {
+      "id": "acxiom",
+      "name": "Acxiom",
+      "method": "direct_form",
+      "legality": "green",
+      "opt_out_url": "https://www.acxiom.com/optout/",
+      "requires_captcha": false,
+      "requires_email_confirm": false,
+      "form_field_map": {
+        "email": "input[type='email']",
+        "first_name": "input[name*='first' i]",
+        "last_name": "input[name*='last' i]"
+      },
+      "submit_selector": "button[type='submit']",
+      "success_hints": ["request", "received", "thank", "submit"],
+      "enabled": true
+    }
+  ],
+  "generic_strategies": [
+    "do_not_sell_click",
+    "privacy_manager",
+    "generic_form_fill",
+    "dsar_link_capture"
+  ],
+  "freeze_targets": [
+    {
+      "id": "equifax",
+      "label": "Equifax credit freeze",
+      "url": "https://www.equifax.com/personal/credit-report-services/credit-freeze/"
+    },
+    {
+      "id": "experian",
+      "label": "Experian credit freeze",
+      "url": "https://www.experian.com/freeze/center.html"
+    },
+    {
+      "id": "transunion",
+      "label": "TransUnion credit freeze",
+      "url": "https://www.transunion.com/credit-freeze"
+    },
+    {
+      "id": "chexsystems",
+      "label": "ChexSystems security freeze",
+      "url": "https://www.chexsystems.com/security-freeze/place-freeze"
+    },
+    {
+      "id": "innovis",
+      "label": "Innovis security freeze",
+      "url": "https://www.innovis.com/personal/securityFreeze"
+    },
+    {
+      "id": "optoutprescreen",
+      "label": "OptOutPrescreen (pre-screened offers)",
+      "url": "https://www.optoutprescreen.com/"
+    }
+  ]
+}

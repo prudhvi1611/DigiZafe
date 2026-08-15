@@ -1,0 +1,138 @@
+{
+  "model_version": "pdss-v1.1.0",
+  "description": "Hybrid Personal Data Severity Score — CVSS-inspired Base/Temporal/Environmental + surprisal two-track",
+  "score_range": [0.0, 10.0],
+  "tracks": ["confirmed", "possible"],
+  "severity_bands": {
+    "none": [0.0, 0.0],
+    "low": [0.1, 3.9],
+    "medium": [4.0, 6.9],
+    "high": [7.0, 8.9],
+    "critical": [9.0, 10.0]
+  },
+  "kind_base_weights": {
+    "breach": {
+      "sensitivity": 0.75,
+      "discoverability": 0.85,
+      "linkability": 0.70,
+      "impact": 0.80
+    },
+    "password_exposure": {
+      "sensitivity": 0.95,
+      "discoverability": 0.90,
+      "linkability": 0.85,
+      "impact": 0.95
+    },
+    "certificate": {
+      "sensitivity": 0.25,
+      "discoverability": 0.90,
+      "linkability": 0.55,
+      "impact": 0.30
+    },
+    "dns_rdap": {
+      "sensitivity": 0.20,
+      "discoverability": 0.85,
+      "linkability": 0.40,
+      "impact": 0.25
+    },
+    "profile": {
+      "sensitivity": 0.40,
+      "discoverability": 0.80,
+      "linkability": 0.60,
+      "impact": 0.35
+    },
+    "username_presence": {
+      "sensitivity": 0.35,
+      "discoverability": 0.75,
+      "linkability": 0.55,
+      "impact": 0.30
+    },
+    "serp": {
+      "sensitivity": 0.30,
+      "discoverability": 0.70,
+      "linkability": 0.45,
+      "impact": 0.25
+    },
+    "other": {
+      "sensitivity": 0.30,
+      "discoverability": 0.50,
+      "linkability": 0.40,
+      "impact": 0.30
+    }
+  },
+  "exposed_data_boosts": {
+    "passwords": 0.25,
+    "password": 0.25,
+    "plaintext": 0.30,
+    "ssn": 0.35,
+    "social security": 0.35,
+    "credit card": 0.30,
+    "phone": 0.10,
+    "address": 0.12,
+    "date of birth": 0.15,
+    "email": 0.05,
+    "username": 0.05,
+    "ip": 0.08,
+    "photos": 0.08,
+    "financial": 0.28
+  },
+  "password_risk_map": {
+    "plaintext": 1.0,
+    "easytocrack": 0.85,
+    "easy_to_crack": 0.85,
+    "hardtocrack": 0.45,
+    "hard_to_crack": 0.45,
+    "unknown": 0.55
+  },
+  "risk_label_map": {
+    "critical": 1.0,
+    "high": 0.85,
+    "medium": 0.55,
+    "low": 0.30,
+    "unknown": 0.40
+  },
+  "layer_multipliers": {
+    "surface": 1.0,
+    "deep": 1.0,
+    "constrained_dark": 1.0
+  },
+  "temporal": {
+    "recency_half_life_days": 730,
+    "min_recency_factor": 0.55,
+    "reuse_bonus_per_extra_source": 0.08,
+    "reuse_bonus_cap": 0.35
+  },
+  "environmental": {
+    "identifier_type_criticality": {
+      "email": 1.0,
+      "phone": 1.05,
+      "domain": 0.9,
+      "username": 0.85,
+      "github_username": 0.9,
+      "password": 1.15
+    },
+    "identity_graph_link_boost_per_edge": 0.04,
+    "identity_graph_link_boost_cap": 0.20
+  },
+  "surprisal": {
+    "base": 2.0,
+    "scale": 1.35,
+    "cap_contribution": 4.5
+  },
+  "aggregation": {
+    "confirmed_weight": 1.0,
+    "possible_weight": 0.55,
+    "diminishing_k": 0.65,
+    "max_findings_in_vector_detail": 40
+  },
+  "vector_metric_labels": {
+    "S": "Sensitivity",
+    "D": "Discoverability",
+    "L": "Linkability",
+    "I": "Impact",
+    "T": "Temporal",
+    "E": "Environmental",
+    "U": "Surprisal",
+    "R": "Reuse"
+  }
+}

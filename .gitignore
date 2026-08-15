@@ -64,5 +64,5 @@ Thumbs.db
 
 # Dumps
 *.dump
-*.json
+digizafe-data-export.json
 tree_output.txt

@@ -1,0 +1,8 @@
+{
+  "generator_version":"v1.0.0",
+  "seed":42,
+  "schema_version":"residual-features-v1",
+  "samples":1000,
+  "limitations":"Synthetic data ONLY. Does not establish real-world predictive validity.",
+  "target_function":"true_residual_mean + N(0, 2.0)"
+}

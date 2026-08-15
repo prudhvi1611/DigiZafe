@@ -1,0 +1,156 @@
+{
+  "model_version": "rec-v1.0.0",
+  "description": "Two-lane recommendations: guided (always) + semi-automated Green brokers (queued for Sprint 7). Urgency + ROI from PDSS marginal impact + dependency DAG.",
+  "lanes": {
+    "guided": "User-in-loop steps, freeze, DSAR/know templates, password hygiene, MFA",
+    "semi_automated": "Green broker opt-outs via Playwright (Sprint 7 execution); planned in Sprint 6"
+  },
+  "templates": [
+    {
+      "code": "change_password_breached",
+      "lane": "guided",
+      "title": "Change passwords on breached accounts",
+      "summary": "One or more breaches expose passwords or high-risk credentials. Change passwords and enable unique secrets.",
+      "urgency_base": 0.95,
+      "effort_hours": 0.5,
+      "roi_weight": 1.0,
+      "depends_on": [],
+      "triggers": {"kinds": ["breach", "password_exposure"], "min_severity": "medium"},
+      "steps": [
+        "Identify accounts tied to the breached email",
+        "Change password to a unique high-entropy secret",
+        "Enable MFA where available",
+        "Revoke sessions / app passwords if offered"
+      ],
+      "playbook_key": "guided.password_reset"
+    },
+    {
+      "code": "enable_mfa",
+      "lane": "guided",
+      "title": "Enable multi-factor authentication",
+      "summary": "Reduce account takeover risk after credential exposure.",
+      "urgency_base": 0.85,
+      "effort_hours": 0.25,
+      "roi_weight": 0.85,
+      "depends_on": ["change_password_breached"],
+      "triggers": {"kinds": ["breach", "password_exposure", "profile"], "min_severity": "low"},
+      "steps": [
+        "Prefer TOTP or hardware key over SMS",
+        "Store backup codes offline",
+        "Review DigiZafe account MFA status"
+      ],
+      "playbook_key": "guided.mfa"
+    },
+    {
+      "code": "credit_freeze",
+      "lane": "guided",
+      "title": "Place free credit / security freezes",
+      "summary": "High-impact identity exposure warrants freezes at major bureaus and specialty agencies (AIDR freeze lineage).",
+      "urgency_base": 0.9,
+      "effort_hours": 1.0,
+      "roi_weight": 0.95,
+      "depends_on": [],
+      "triggers": {
+        "kinds": ["breach"],
+        "min_severity": "high",
+        "attribute_contains": ["ssn", "social security", "password", "financial", "credit"]
+      },
+      "steps": [
+        "Equifax credit freeze",
+        "Experian credit freeze",
+        "TransUnion credit freeze",
+        "ChexSystems / Innovis / NCTUE as applicable",
+        "OptOutPrescreen for pre-screened offers"
+      ],
+      "links": [
+        {"label": "Equifax", "url": "https://www.equifax.com/personal/credit-report-services/credit-freeze/"},
+        {"label": "Experian", "url": "https://www.experian.com/freeze/center.html"},
+        {"label": "TransUnion", "url": "https://www.transunion.com/credit-freeze"},
+        {"label": "ChexSystems", "url": "https://www.chexsystems.com/security-freeze/place-freeze"},
+        {"label": "Innovis", "url": "https://www.innovis.com/personal/securityFreeze"},
+        {"label": "OptOutPrescreen", "url": "https://www.optoutprescreen.com/"}
+      ],
+      "playbook_key": "guided.credit_freeze",
+      "aidr_lineage": "lib/freeze.js FREEZE_TARGETS"
+    },
+    {
+      "code": "right_to_know",
+      "lane": "guided",
+      "title": "Send right-to-know / access requests",
+      "summary": "Generate CCPA/GDPR access templates for brokers or processors holding your data (AIDR know lineage).",
+      "urgency_base": 0.55,
+      "effort_hours": 0.4,
+      "roi_weight": 0.5,
+      "depends_on": [],
+      "triggers": {"kinds": ["profile", "username_presence", "serp", "breach"], "min_severity": "info"},
+      "steps": [
+        "Pick regime (CCPA default / GDPR if EU)",
+        "Generate request body",
+        "Send to broker privacy contact",
+        "Record submission date for complaint deadlines"
+      ],
+      "playbook_key": "guided.right_to_know",
+      "aidr_lineage": "lib/right-to-know.js"
+    },
+    {
+      "code": "review_serp_footprint",
+      "lane": "guided",
+      "title": "Review and clean SERP footprint",
+      "summary": "Public search hits may amplify discoverability. Review URLs and request outdated content removal where appropriate.",
+      "urgency_base": 0.45,
+      "effort_hours": 0.75,
+      "roi_weight": 0.4,
+      "depends_on": [],
+      "triggers": {"kinds": ["serp"], "min_severity": "info"},
+      "steps": [
+        "Open each SERP hit",
+        "Request removal of outdated personal content where policy allows",
+        "Update privacy settings on linked profiles"
+      ],
+      "playbook_key": "guided.serp_review"
+    },
+    {
+      "code": "broker_optout_green",
+      "lane": "semi_automated",
+      "title": "Opt out of Green data brokers",
+      "summary": "Queue AIDR-style Green broker opt-outs. Execution in Sprint 7 (Playwright + free CAPTCHA path).",
+      "urgency_base": 0.7,
+      "effort_hours": 0.1,
+      "roi_weight": 0.75,
+      "depends_on": [],
+      "triggers": {"kinds": ["profile", "username_presence", "serp", "breach"], "min_severity": "low"},
+      "steps": [
+        "Review planned brokers",
+        "Confirm consent for automated form submission",
+        "Run remediation job (Sprint 7)"
+      ],
+      "playbook_key": "remediation.broker_optout_green",
+      "sprint7_required": true,
+      "aidr_lineage": "brokers.js + state.json optOuts"
+    },
+    {
+      "code": "rescan_after_remediation",
+      "lane": "guided",
+      "title": "Rescan to verify improvement",
+      "summary": "After remediating high-impact findings, run a quota-aware rescan and recompute PDSS (closed loop).",
+      "urgency_base": 0.5,
+      "effort_hours": 0.05,
+      "roi_weight": 0.6,
+      "depends_on": ["change_password_breached", "broker_optout_green", "credit_freeze"],
+      "triggers": {"always_if_open_findings": true},
+      "steps": ["Start rescan on verified identifier", "Compare PDSS delta", "Close resolved recommendations"],
+      "playbook_key": "guided.rescan"
+    }
+  ],
+  "priority_formula": {
+    "urgency_weight": 0.45,
+    "roi_weight": 0.40,
+    "effort_penalty": 0.15,
+    "pdss_marginal_boost": 0.35
+  },
+  "freeze_recommend_rule": {
+    "note": "Maps AIDR recommendFreeze: any high-severity breach with sensitive data classes",
+    "min_severity_hint": ["high", "critical"],
+    "attribute_keywords": ["ssn", "social security", "password", "passwords", "financial", "credit card"]
+  }
+}

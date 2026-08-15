@@ -1,0 +1,65 @@
+{
+  "registry_version": "1.0.0",
+  "description": "DigiZafe free Amber discovery registry. Metadata-first, consented, rate-limited.",
+  "policy": {
+    "raw_html_storage": false,
+    "raw_dump_storage": false,
+    "direct_tor_access": false,
+    "onion_crawling": false,
+    "marketplace_access": false,
+    "credentialed_access": false,
+    "paid_dependency": false
+  },
+  "layers": {
+    "deep": [
+      {
+        "id": "common_crawl",
+        "name": "Common Crawl URL Index",
+        "legality": "amber",
+        "enabled_by_default": true,
+        "supports": ["domain"],
+        "metadata_only": true,
+        "attribution": "Common Crawl public index",
+        "limitations": [
+          "URL-index metadata only",
+          "Generic username searching is not enabled by default because string matches are ambiguous",
+          "Coverage varies by crawl collection",
+          "No claim that archived content is current",
+          "No full archived page body is retained"
+        ]
+      },
+      {
+        "id": "wayback",
+        "name": "Internet Archive Wayback Availability",
+        "legality": "amber",
+        "enabled_by_default": true,
+        "supports": ["domain"],
+        "metadata_only": true,
+        "attribution": "Internet Archive Wayback Machine",
+        "limitations": [
+          "Availability metadata only",
+          "A historical capture does not prove current exposure",
+          "No archived page body is retained by DigiZafe"
+        ]
+      }
+    ],
+    "constrained_dark": [
+      {
+        "id": "public_index",
+        "name": "Operator-approved public index",
+        "legality": "amber",
+        "enabled_by_default": false,
+        "supports": ["domain"],
+        "metadata_only": true,
+        "attribution": "Configured public index",
+        "limitations": [
+          "No endpoint is configured by default",
+          "Only operator-approved HTTPS hosts are allowed",
+          "No .onion access",
+          "No marketplace or credentialed access",
+          "Results are best-effort and may be incomplete"
+        ]
+      }
+    ]
+  }
+}
