@@ -5,7 +5,7 @@ import argparse
 import numpy as np
 import pandas as pd
 import joblib
-from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.metrics import mean_absolute_error, mean_squared_error , r2_score
 import structlog
 from datetime import datetime
 
@@ -25,6 +25,7 @@ EVAL_REPORT_TEMPLATE = """# Evaluation Report: {version}
 ## Metrics
 - **Mean Absolute Error (MAE)**: {mae:.4f}
 - **Root Mean Squared Error (RMSE)**: {rmse:.4f}
+- **R² Score**: {r2:.4f}
 
 ## Feature Importance (Proxy via Absolute Correlation to Target)
 {feature_importance}
@@ -69,6 +70,7 @@ def main():
     
     mae = mean_absolute_error(y_true, y_pred)
     rmse = np.sqrt(mean_squared_error(y_true, y_pred))
+    r2 = r2_score(y_true, y_pred)
     
     # Simple proxy for importance if trees don't expose it cleanly
     correlations = df[RESIDUAL_FEATURES_V1].apply(lambda x: x.corr(df["target_delta"])).abs().sort_values(ascending=False)
@@ -89,6 +91,7 @@ def main():
         schema_version=SCHEMA_VERSION,
         mae=mae,
         rmse=rmse,
+        r2=r2,
         feature_importance=feat_imp_str,
         family_breakdown=family_breakdown
     )
